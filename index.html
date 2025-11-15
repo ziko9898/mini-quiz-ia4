@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisi delle Competenze Digitali (10 Domande)</title>
+    
+    <style>
+        /* CSS per un Design Serio e Formale (Toni Scuro/Blu) */
+        body {
+            font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            text-align: center;
+            padding: 30px;
+            background-color: #f8f9fa; /* Sfondo molto chiaro */
+            color: #212529; /* Testo scuro */
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border-top: 5px solid #007bff; /* Linea blu distintiva */
+        }
+        h1 {
+            color: #007bff; /* Blu professionale */
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            font-weight: 500;
+        }
+        p.subtitle {
+            font-size: 1.1em;
+            color: #6c757d;
+            margin-bottom: 25px;
+        }
+        .question-box {
+            background-color: #e9ecef; /* Sfondo chiaro per la domanda */
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 1.1em;
+            font-weight: 400;
+            text-align: left;
+            line-height: 1.5;
+        }
+        .options-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .options-container button {
+            flex-grow: 1;
+            min-width: 45%; 
+            background-color: #343a40; /* Grigio scuro/Nero per i pulsanti */
+            color: white;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .options-container button:hover:not(:disabled) {
+            background-color: #007bff; /* Hover blu */
+        }
+        /* Stili per feedback */
+        .options-container button:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+        .correct { 
+            background-color: #28a745 !important; 
+        }
+        .wrong { 
+            background-color: #dc3545 !important;
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 1.3em;
+            font-weight: bold;
+            padding: 20px;
+            border-radius: 4px;
+            background-color: #fff3cd; 
+            color: #856404;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <h1>Analisi delle Competenze Digitali (10 Domande)</h1>
+        <p class="subtitle">Valuta la tua comprensione dei concetti fondamentali di Informatica e Intelligenza Artificiale.</p>
+        
+        <div id="quiz-area">
+            <div class="question-box" id="question"></div>
+            <div class="options-container" id="options"></div>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "Domanda 1: Quale sigla rappresenta il 'cervello' che esegue i calcoli nel computer?",
+                options: ["GPU", "RAM", "CPU"],
+                a: "CPU"
+            },
+            {
+                q: "Domanda 2: Quale tecnologia permette a un programma di riconoscere oggetti o volti nelle foto?",
+                options: ["Virtual Reality (VR)", "Intelligenza Artificiale (IA)", "Cloud Computing"],
+                a: "Intelligenza Artificiale (IA)"
+            },
+            {
+                q: "Domanda 3: Quale acronimo indica il linguaggio standard per la struttura delle pagine web?",
+                options: ["CSS", "HTML", "Python"],
+                a: "HTML"
+            },
+            {
+                q: "Domanda 4: Che cos'è la 'RAM'?",
+                options: ["Un archivio permanente di file", "Una memoria temporanea veloce", "Un dispositivo di input"],
+                a: "Una memoria temporanea veloce"
+            },
+            {
+                q: "Domanda 5: Il processo che permette ai programmi di IA di migliorare automaticamente analizzando dati si chiama:",
+                options: ["Data Scraping", "Machine Learning", "Software Testing"],
+                a: "Machine Learning"
+            },
+            {
+                q: "Domanda 6: Cosa rappresenta il 'Bit'?",
+                options: ["L'unità più grande di archiviazione", "La cifra 0 o 1 nel codice binario", "Un tipo di file musicale"],
+                a: "La cifra 0 o 1 nel codice binario"
+            },
+            {
+                q: "Domanda 7: Se lavori su un file salvato online e accessibile ovunque, stai usando:",
+                options: ["L'Hard Disk locale", "Il Cloud Computing", "Il Sistema Operativo"],
+                a: "Il Cloud Computing"
+            },
+            {
+                q: "Domanda 8: L'insieme delle regole che descrive i passaggi precisi per risolvere un problema è chiamato:",
+                options: ["Protocollo", "Algoritmo", "Bug"],
+                a: "Algoritmo"
+            },
+            {
+                q: "Domanda 9: Quale di questi non è un linguaggio di programmazione?",
+                options: ["JavaScript", "Python", "Windows"],
+                a: "Windows"
+            },
+            {
+                q: "Domanda 10: Quale tecnologia si usa per creare conversazioni realistiche con un'IA (come Siri o Alexa)?",
+                options: ["Digitalizzazione", "Natural Language Processing (NLP)", "Crittografia"],
+                a: "Natural Language Processing (NLP)"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        
+        const questionElement = document.getElementById('question');
+        const optionsElement = document.getElementById('options');
+        const resultElement = document.getElementById('result');
+
+        function showQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                const qData = questions[currentQuestionIndex];
+                
+                questionElement.textContent = `(${currentQuestionIndex + 1}/${questions.length}) - ${qData.q}`;
+                optionsElement.innerHTML = '';
+                
+                qData.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.textContent = option;
+                    button.onclick = (event) => checkAnswer(option, qData.a, event.target);
+                    optionsElement.appendChild(button);
+                });
+            } else {
+                showResult();
+            }
+        }
+
+        function checkAnswer(selectedOption, correctAnswer, button) {
+            Array.from(optionsElement.children).forEach(btn => btn.disabled = true);
+            
+            if (selectedOption === correctAnswer) {
+                score++;
+                button.classList.add('correct');
+                alert("Corretto. Procedi con la prossima analisi.");
+            } else {
+                button.classList.add('wrong');
+                Array.from(optionsElement.children)
+                     .find(btn => btn.textContent === correctAnswer)
+                     .classList.add('correct');
+                alert(`Errore. La risposta esatta era: ${correctAnswer}.`);
+            }
+            
+            currentQuestionIndex++;
+            showQuestion();
+        }
+
+        function showResult() {
+            const total = questions.length;
+            let finalMessage = '';
+            
+            if (score === total) {
+                finalMessage = "Livello di Competenza Eccellente (10/10). Analisi terminata con successo.";
+            } else if (score >= 8) {
+                finalMessage = `Livello di Competenza Alto. Punteggio: ${score} su ${total}. Risultato positivo.`;
+            } else if (score >= 5) {
+                finalMessage = `Livello Intermedio. Punteggio: ${score} su ${total}. Competenze da consolidare.`;
+            } else {
+                finalMessage = `Livello Basso. Punteggio: ${score} su ${total}. Si consiglia un approfondimento immediato.`;
+            }
+            
+            document.getElementById('quiz-area').style.display = 'none';
+            resultElement.style.display = 'block';
+            resultElement.innerHTML = `**Rapporto Finale**<br>Punteggio: ${score} / ${total}<br><br>${finalMessage}`;
+        }
+
+        showQuestion();
+    </script>
+    </body>
+</html>
