@@ -94,7 +94,7 @@
 <body>
 
     <div class="quiz-container">
-        <h1>Analisi delle Competenze Digitali (10 Domande)</h1>
+        <h1>Metti alla prova le tue Competenze Digitali (10 Domande)</h1>
         <p class="subtitle">Valuta la tua comprensione dei concetti fondamentali di Informatica e Intelligenza Artificiale.</p>
         
         <div id="quiz-area">
@@ -190,13 +190,13 @@
             if (selectedOption === correctAnswer) {
                 score++;
                 button.classList.add('correct');
-                alert("Corretto. Procedi con la prossima analisi.");
+                alert("Corretto.");
             } else {
                 button.classList.add('wrong');
                 Array.from(optionsElement.children)
                      .find(btn => btn.textContent === correctAnswer)
                      .classList.add('correct');
-                alert(`Errore. La risposta esatta era: ${correctAnswer}.`);
+                alert(`Sbagliato. La risposta esatta era: ${correctAnswer}.`);
             }
             
             currentQuestionIndex++;
@@ -208,13 +208,13 @@
             let finalMessage = '';
             
             if (score === total) {
-                finalMessage = "Livello di Competenza Eccellente (10/10). Analisi terminata con successo.";
-            } else if (score >= 8) {
-                finalMessage = `Livello di Competenza Alto. Punteggio: ${score} su ${total}. Risultato positivo.`;
+                finalMessage = "Livello di Competenza Eccellente.";
+            } else if (score >= 10) {
+                finalMessage = `Livello di Competenza Alto. Punteggio: ${score} su ${total}..`;
             } else if (score >= 5) {
-                finalMessage = `Livello Intermedio. Punteggio: ${score} su ${total}. Competenze da consolidare.`;
+                finalMessage = `Livello Intermedio. Punteggio: ${score} su ${total}.`;
             } else {
-                finalMessage = `Livello Basso. Punteggio: ${score} su ${total}. Si consiglia un approfondimento immediato.`;
+                finalMessage = `Livello Basso. Punteggio: ${score} su ${total}. `;
             }
             
             document.getElementById('quiz-area').style.display = 'none';
